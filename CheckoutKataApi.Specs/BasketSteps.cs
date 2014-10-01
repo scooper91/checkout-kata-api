@@ -10,29 +10,30 @@ namespace CheckoutKataApi.Specs
     {
 	    private Uri _basketUri;
 
+		private Uri CreateBasket(string items)
+		{
+			var webRequest = WebRequest.Create("http://checkout-kata.local/baskets");
+			webRequest.Method = "POST";
+			webRequest.ContentLength = 0;
+			var webResponse = (HttpWebResponse)webRequest.GetResponse();
+
+			Assert.That(webResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+
+			return new Uri(webResponse.GetResponseHeader("Location"));
+		}
+
+
         [Given(@"I have an empty basket")]
         public void GivenIHaveAnEmptyBasket()
         {
 	        _basketUri = CreateBasket("");
         }
 
-	    private Uri CreateBasket(string items)
-	    {
-		    var webRequest = WebRequest.Create("http://checkout-kata.local/baskets");
-		    webRequest.Method = "POST";
-		    webRequest.ContentLength = 0;
-		    var webResponse = (HttpWebResponse) webRequest.GetResponse();
-
-		    Assert.That(webResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-
-			return new Uri(webResponse.GetResponseHeader("Location"));
-	    }
-
 	    [When(@"I check my basket")]
         public void WhenICheckMyBasket()
-        {
-            ScenarioContext.Current.Pending();
-        }
+	    {
+			ScenarioContext.Current.Pending();
+	    }
         
         [Then(@"the price should be (.*)")]
         public void ThenThePriceShouldBe(int p0)
