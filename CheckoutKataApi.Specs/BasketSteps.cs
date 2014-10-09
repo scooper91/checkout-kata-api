@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Net;
+using System.Web.Script.Serialization;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -9,21 +11,10 @@ namespace CheckoutKataApi.Specs
     public class BasketSteps
     {
 	    private Uri _basketUri;
-
-		private Uri CreateBasket(string items)
-		{
-			var webRequest = WebRequest.Create("http://checkout-kata.local/baskets");
-			webRequest.Method = "POST";
-			webRequest.ContentLength = 0;
-			var webResponse = (HttpWebResponse)webRequest.GetResponse();
-
-			Assert.That(webResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
-
-			return new Uri(webResponse.GetResponseHeader("Location"));
-		}
+	    private HttpWebResponse _webResponse;
 
 
-        [Given(@"I have an empty basket")]
+	    [Given(@"I have an empty basket")]
         public void GivenIHaveAnEmptyBasket()
         {
 	        _basketUri = CreateBasket("");
@@ -33,15 +24,36 @@ namespace CheckoutKataApi.Specs
         public void WhenICheckMyBasket()
 	    {
 		    var webRequest = WebRequest.Create("http://checkout-kata.local/baskets/1");
-		    var webResponse = (HttpWebResponse) webRequest.GetResponse();
+		    _webResponse = (HttpWebResponse) webRequest.GetResponse();
 
-			Assert.That(webResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+			Assert.That(_webResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 	    }
-        
-        [Then(@"the price should be (.*)")]
-        public void ThenThePriceShouldBe(int p0)
+
+	    [Then(@"the price should be (.*)")]
+        public void ThenThePriceShouldBe(int expectedPrice)
         {
-            ScenarioContext.Current.Pending();
+	        var responseStream = _webResponse.GetResponseStream();
+
+			Assert.NotNull(responseStream);
+	        var streamReader = new StreamReader(responseStream);
+	        var body = streamReader.ReadToEnd();
+
+	        var serializer = new JavaScriptSerializer();
+	        var basket = serializer.Deserialize<Basket>(body);
+
+			Assert.That(basket.Price, Is.EqualTo(expectedPrice));
         }
+
+	    public Uri CreateBasket(string basketContents)
+	    {
+		    var webRequest = WebRequest.Create("http://checkout-kata.local/baskets");
+		    webRequest.Method = "POST";
+		    webRequest.ContentLength = 0;
+		    _webResponse = (HttpWebResponse)webRequest.GetResponse();
+
+		    Assert.That(_webResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+
+		    return new Uri(_webResponse.GetResponseHeader("Location"));
+	    }
     }
 }

@@ -73,6 +73,12 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CheckoutKataApi.Specs\CheckoutKataApi.Specs.csproj">
+      <Project>{C8CD666B-690D-4E15-B398-5FE215C6BF77}</Project>
+      <Name>CheckoutKataApi.Specs</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
