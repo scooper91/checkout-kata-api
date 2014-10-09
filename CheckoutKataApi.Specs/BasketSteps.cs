@@ -32,7 +32,10 @@ namespace CheckoutKataApi.Specs
 	    [When(@"I check my basket")]
         public void WhenICheckMyBasket()
 	    {
-			ScenarioContext.Current.Pending();
+		    var webRequest = WebRequest.Create("http://checkout-kata.local/baskets/1");
+		    var webResponse = (HttpWebResponse) webRequest.GetResponse();
+
+			Assert.That(webResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 	    }
         
         [Then(@"the price should be (.*)")]
