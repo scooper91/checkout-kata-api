@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Net;
 using System.Web.Script.Serialization;
 using NUnit.Framework;
@@ -8,54 +7,32 @@ namespace CheckoutKataApi.Specs
 {
 	public class BasketProcessing
 	{
-		//public Uri BasketUri;
-		private HttpWebResponse _webResponse;
+		private readonly Browser _browser = new Browser();
 
 		public Uri CreateBasket(string basketContents)
 		{
-			var webRequest = WebRequest.Create("http://checkout-kata.local/baskets");
-			webRequest.Method = "POST";
-			webRequest.ContentLength = 0;
-			_webResponse = (HttpWebResponse)webRequest.GetResponse();
+			_browser.Post(new Uri("http://checkout-kata.local/baskets"));
 
-			Assert.That(_webResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+			Assert.That(_browser.WebResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
 
-			return new Uri(_webResponse.GetResponseHeader("Location"));
+			return _browser.GetLocationUri();
 		}
 
 		public void GetBasket(Uri requestUri)
 		{
-			Get(requestUri);
+			_browser.Get(requestUri);
 
-			Assert.That(_webResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-		}
-
-		private void Get(Uri requestUri)
-		{
-			var webRequest = WebRequest.Create(requestUri);
-			_webResponse = (HttpWebResponse) webRequest.GetResponse();
+			Assert.That(_browser.WebResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 		}
 
 		public void AssertPriceIsCorrect(int expectedPrice)
 		{
-			var body = GetResponseBody();
+			var body = _browser.GetResponseBody();
 
 			var serializer = new JavaScriptSerializer();
 			var basket = serializer.Deserialize<Basket>(body);
 
 			Assert.That(basket.Price, Is.EqualTo(expectedPrice));
-		}
-
-		private string GetResponseBody()
-		{
-			using (var responseStream = _webResponse.GetResponseStream())
-			{
-				Assert.NotNull(responseStream);
-				using (var streamReader = new StreamReader(responseStream))
-				{
-					return streamReader.ReadToEnd();
-				}
-			}
 		}
 	}
 }
