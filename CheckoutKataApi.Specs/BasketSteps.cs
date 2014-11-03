@@ -15,6 +15,12 @@ namespace CheckoutKataApi.Specs
 		    _basketUri = _basketProcessing.CreateBasket("");
         }
 
+		[Given(@"I have a basket with item A in")]
+		public void GivenIHaveABasketWithItemAIn()
+		{
+			_basketUri = _basketProcessing.CreateBasket("A");
+		}
+
 	    [When(@"I check my basket")]
         public void WhenICheckMyBasket()
 	    {

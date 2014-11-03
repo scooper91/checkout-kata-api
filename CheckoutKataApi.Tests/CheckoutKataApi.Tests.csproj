@@ -42,11 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasketStoreTests.cs" />
+    <Compile Include="PriceCalculatorTests.cs" />
     <Compile Include="WalkingSkeleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CheckoutKataApi.Web\CheckoutKataApi.Web.csproj">
+      <Project>{AD5BFFE4-AB65-42F3-89E9-C76E66B20C2F}</Project>
+      <Name>CheckoutKataApi.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

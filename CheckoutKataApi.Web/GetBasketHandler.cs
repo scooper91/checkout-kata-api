@@ -7,7 +7,11 @@ namespace CheckoutKataApi.Web
 	{
 		public void ProcessRequest(HttpContext context)
 		{
-			var basket = new Basket();
+			var basketStore = new BasketStore();
+			var url = context.Request.Url.ToString();
+			var basketIdIndex = url.LastIndexOf('/');
+			var basketId = int.Parse(url.Substring(basketIdIndex + 1));
+			var basket = basketStore.Get(basketId);
 
 			var serializer = new JavaScriptSerializer();
 			var serializedBasket = serializer.Serialize(basket);
@@ -15,10 +19,5 @@ namespace CheckoutKataApi.Web
 		}
 
 		public bool IsReusable { get; private set; }
-	}
-
-	public class Basket
-	{
-		public int Price { get; set; }
 	}
 }
