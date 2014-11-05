@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace CheckoutKataApi.Web
 {
-	public static class PriceForItems
+	public static class ItemPrices
 	{
 		public static Dictionary<char, int> ItemPrice()
 		{

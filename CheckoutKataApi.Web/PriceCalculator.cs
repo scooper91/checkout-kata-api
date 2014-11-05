@@ -4,14 +4,14 @@ namespace CheckoutKataApi.Web
 	{
 		public int GetPriceOf(string items)
 		{
-			var price = 0;
+			var runningTotal = 0;
 			var aItems = 0;
 			var bItems = 0;
-			var priceForItems = PriceForItems.ItemPrice();
+			var priceForItems = ItemPrices.ItemPrice();
 
 			foreach (var item in items)
 			{
-				price += priceForItems[item];
+				runningTotal += priceForItems[item];
 
 				if (item == 'A')
 				{
@@ -23,18 +23,9 @@ namespace CheckoutKataApi.Web
 				}
 			}
 
-			if (aItems >= 3)
-			{
-				var aItemDiscountAmount = aItems/3;
-				price -= (20 * aItemDiscountAmount);
-			}
-			if (bItems >= 2)
-			{
-				var bItemDiscountAmount = bItems/2;
-				price -= (15 * bItemDiscountAmount);
-			}
+			runningTotal = Discounter.CalculateDiscount(aItems, runningTotal, bItems);
 
-			return price;
+			return runningTotal;
 		}
 	}
 }
