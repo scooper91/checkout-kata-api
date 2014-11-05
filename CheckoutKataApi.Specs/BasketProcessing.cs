@@ -11,7 +11,7 @@ namespace CheckoutKataApi.Specs
 
 		public Uri CreateBasket(string basketContents)
 		{
-			_browser.Post(new Uri("http://checkout-kata.local/baskets"));
+			_browser.Post(new Uri("http://checkout-kata.local/baskets"), basketContents);
 
 			Assert.That(_browser.WebResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
 
