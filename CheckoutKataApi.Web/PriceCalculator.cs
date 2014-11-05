@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace CheckoutKataApi.Web
 {
 	public class PriceCalculator
@@ -9,13 +7,7 @@ namespace CheckoutKataApi.Web
 			var price = 0;
 			var aItems = 0;
 			var bItems = 0;
-			var priceForItems = new Dictionary<char, int>
-				{
-					{'A', 50},
-					{'B', 30},
-					{'C', 20},
-					{'D', 15}
-				};
+			var priceForItems = PriceForItems.ItemPrice();
 
 			foreach (var item in items)
 			{
@@ -42,7 +34,7 @@ namespace CheckoutKataApi.Web
 				price -= (15 * bItemDiscountAmount);
 			}
 
-	return price;
+			return price;
 		}
 	}
 }

@@ -39,6 +39,7 @@ namespace CheckoutKataApi.Tests
 
 		[TestCase("AAAAAA", 260)]
 		[TestCase("BBBB", 90)]
+		[TestCase("AAABB", 175)]
 		public void Should_return_price_when_multiple_discounts_have_been_reached_for_one_item(
 			string items, int expectedPrice)
 		{
