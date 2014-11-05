@@ -4,7 +4,7 @@ namespace CheckoutKataApi.Web
 {
 	public class PriceCalculator
 	{
-		public static int GetPriceOf(string items)
+		public int GetPriceOf(string items)
 		{
 			var price = 0;
 			var aItems = 0;
@@ -31,13 +31,15 @@ namespace CheckoutKataApi.Web
 				}
 			}
 
-			if (aItems == 3)
+			if (aItems >= 3)
 			{
-				price -= 20;
+				var aItemDiscountAmount = aItems/3;
+				price -= (20 * aItemDiscountAmount);
 			}
-			if (bItems == 2)
+			if (bItems >= 2)
 			{
-				price -= 15;
+				var bItemDiscountAmount = bItems/2;
+				price -= (15 * bItemDiscountAmount);
 			}
 
 	return price;

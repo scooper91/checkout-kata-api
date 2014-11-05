@@ -14,7 +14,7 @@ namespace CheckoutKataApi.Tests
 		{
 			var calculator = new PriceCalculator();
 
-			Assert.That(PriceCalculator.GetPriceOf(items), Is.EqualTo(expectedPrice));
+			Assert.That(calculator.GetPriceOf(items), Is.EqualTo(expectedPrice));
 		}
 
 		[TestCase("AA", 100)]
@@ -25,7 +25,7 @@ namespace CheckoutKataApi.Tests
 		{
 			var calculator = new PriceCalculator();
 
-			Assert.That(PriceCalculator.GetPriceOf(items), Is.EqualTo(expectedPrice));
+			Assert.That(calculator.GetPriceOf(items), Is.EqualTo(expectedPrice));
 		}
 
 		[TestCase("AAA", 130)]
@@ -34,7 +34,17 @@ namespace CheckoutKataApi.Tests
 		{
 			var calculator = new PriceCalculator();
 			
-			Assert.That(PriceCalculator.GetPriceOf(items), Is.EqualTo(expectedPrice));
+			Assert.That(calculator.GetPriceOf(items), Is.EqualTo(expectedPrice));
+		}
+
+		[TestCase("AAAAAA", 260)]
+		[TestCase("BBBB", 90)]
+		public void Should_return_price_when_multiple_discounts_have_been_reached_for_one_item(
+			string items, int expectedPrice)
+		{
+			var calculator = new PriceCalculator();
+
+			Assert.That(calculator.GetPriceOf(items), Is.EqualTo(expectedPrice));
 		}
 	}
 }
