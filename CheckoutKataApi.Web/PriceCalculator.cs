@@ -1,27 +1,17 @@
+using System.Linq;
+
 namespace CheckoutKataApi.Web
 {
 	public class PriceCalculator
 	{
 		public int GetPriceOf(string items)
 		{
-			var runningTotal = 0;
-			var aItems = 0;
-			var bItems = 0;
 			var priceForItems = ItemPrices.ItemPrice();
 
-			foreach (var item in items)
-			{
-				runningTotal += priceForItems[item];
+			var aItems = items.Count(item => item == 'A');
+			var bItems = items.Count(item => item == 'B');
 
-				if (item == 'A')
-				{
-					aItems += 1;
-				}
-				if (item == 'B')
-				{
-					bItems += 1;
-				}
-			}
+			var runningTotal = items.Sum(item => priceForItems[item]);
 
 			runningTotal = Discounter.CalculateDiscount(aItems, runningTotal, bItems);
 
