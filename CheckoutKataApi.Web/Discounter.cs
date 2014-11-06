@@ -1,20 +1,13 @@
 namespace CheckoutKataApi.Web
 {
-	public class Discounter
+	public static class Discounter
 	{
-		public static int CalculateDiscount(int aItems, int price, int bItems)
+		public static int CalculateDiscount(int aItems, int bItems)
 		{
-			if (aItems >= 3)
-			{
-				var aItemDiscountAmount = aItems/3;
-				price -= (20*aItemDiscountAmount);
-			}
-			if (bItems >= 2)
-			{
-				var bItemDiscountAmount = bItems/2;
-				price -= (15*bItemDiscountAmount);
-			}
-			return price;
+			var discount = (aItems/3)*20;
+			discount += (bItems/2)*15;
+
+			return discount;
 		}
 	}
 }

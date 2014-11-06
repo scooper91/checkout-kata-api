@@ -12,10 +12,9 @@ namespace CheckoutKataApi.Web
 			var bItems = items.Count(item => item == 'B');
 
 			var runningTotal = items.Sum(item => priceForItems[item]);
+			var discountTotal = Discounter.CalculateDiscount(aItems, bItems);
 
-			runningTotal = Discounter.CalculateDiscount(aItems, runningTotal, bItems);
-
-			return runningTotal;
+			return runningTotal - discountTotal;
 		}
 	}
 }
