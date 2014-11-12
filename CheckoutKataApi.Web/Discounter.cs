@@ -6,21 +6,23 @@ namespace CheckoutKataApi.Web
 	{
 		public static int CalculateDiscount(int aItems, int bItems)
 		{
+			var discountB = 0;
 			var discountParameters = new Dictionary<char, DiscountDetails>
 				{
 					{'A', new DiscountDetails {ItemQuantity = aItems, QuantityRequired = 3, DiscountAmount = 20}},
 					{'B', new DiscountDetails {ItemQuantity = bItems, QuantityRequired = 2, DiscountAmount = 15}}
 				};
 
-			//foreach ( in discountParameters)
-			//{
-			//	var discountB = discountParameters[item].ItemQuantity;
-			//}
+			foreach (var item in discountParameters)
+			{
+				char currentItem = item.Key;
+				discountB += (
+					discountParameters[currentItem].ItemQuantity 
+					/ discountParameters[currentItem].QuantityRequired
+					) * discountParameters[currentItem].DiscountAmount;
+			}
 
-			var discount = (aItems/3)*20;
-			discount += (bItems/2)*15;
-
-			return discount;
+			return discountB;
 		}
 	}
 }
