@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CheckoutKataApi.Web
 {
@@ -6,23 +7,20 @@ namespace CheckoutKataApi.Web
 	{
 		public static int CalculateDiscount(int aItems, int bItems)
 		{
-			var discountB = 0;
 			var discountParameters = new Dictionary<char, DiscountDetails>
 				{
 					{'A', new DiscountDetails {ItemQuantity = aItems, QuantityRequired = 3, DiscountAmount = 20}},
 					{'B', new DiscountDetails {ItemQuantity = bItems, QuantityRequired = 2, DiscountAmount = 15}}
 				};
 
-			foreach (var item in discountParameters)
-			{
-				char currentItem = item.Key;
-				discountB += (
-					discountParameters[currentItem].ItemQuantity 
-					/ discountParameters[currentItem].QuantityRequired
-					) * discountParameters[currentItem].DiscountAmount;
-			}
-
-			return discountB;
+			return discountParameters
+				.Select(item => item.Key)
+				.Select(
+					currentItem => 
+						(discountParameters[currentItem].ItemQuantity
+						/discountParameters[currentItem].QuantityRequired)
+						*discountParameters[currentItem].DiscountAmount)
+				.Sum();
 		}
 	}
 }
