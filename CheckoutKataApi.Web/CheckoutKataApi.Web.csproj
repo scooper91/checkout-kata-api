@@ -63,6 +63,7 @@
     <Compile Include="Basket.cs" />
     <Compile Include="BasketStore.cs" />
     <Compile Include="CreateBasketHandler.cs" />
+    <Compile Include="DiscountDetails.cs" />
     <Compile Include="Discounter.cs" />
     <Compile Include="GetBasketHandler.cs" />
     <Compile Include="HttpHandler.cs" />
